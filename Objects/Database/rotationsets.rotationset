@@ -1,0 +1,16 @@
+{
+	"$schema": "https://raw.githubusercontent.com/Tofixrs/SM-JSON-Schemas/refs/heads/0.6.6/rotationSet.json",
+	"rotationSet": [
+		{
+			// Different order as "PropZ"
+			"name": "MyPropZ",
+			"prop": true,
+			"rotation": [
+				{ "south": "Z", "east": "Y" },
+				{ "south": "Z", "east": "X" },
+				{ "south": "Z", "east": "-Y" },
+				{ "south": "Z", "east": "-X" }
+			]
+		}
+	]
+}

@@ -1,0 +1,66 @@
+{
+   "$schema": "https://raw.githubusercontent.com/Tofixrs/SM-JSON-Schemas/0.6.6/shapeSet.json",
+   "partList": [
+      {
+         "name": "obj_interactive_traincoupler",
+         "uuid": "bce3e28c-fbf9-459c-b32e-588d04f60331",
+         "color": "869499", // Metal 2 color
+         "flammable": true,
+         "physicsMaterial": "Metal",
+         "ratings": {
+            "buoyancy": 5,
+            "density": 5,
+            "durability": 7,
+            "friction": 0
+         },
+         "box": {
+            "x": 3,
+            "y": 1,
+            "z": 1
+            // "col": "$CONTENT_DATA/Objects/Collision/obj_interactive_traincoupler.obj"
+         },
+         "rotationSet": "MyPropZ",
+         "sticky": "-Z",
+         "renderable": {
+            "lodList": [
+               {
+                  // "minViewSize": 45,
+                  "mesh": "$CONTENT_DATA/Objects/Mesh/obj_interactive_traincoupler.fbx",
+                  "subMeshMap": {
+                     "submesh0": {
+                        "material": "SkelAnimDifAsgNor",
+                        "textureList": [
+                           "$CONTENT_DATA/Objects/Textures/obj_traincoupler_dif.tga",
+                           "$CONTENT_DATA/Objects/Textures/obj_traincoupler_asg.tga",
+                           "$CONTENT_DATA/Objects/Textures/obj_traincoupler_nor.tga"
+                        ]
+                     }
+                  },
+                  "animationList": [
+                     {
+                        "name": "lock",
+                        "file": "$CONTENT_DATA/Objects/Mesh/obj_interactive_traincoupler.fbx"
+                     },
+                     {
+                        "name": "gimble_yaw",
+                        "file": "$CONTENT_DATA/Objects/Mesh/obj_interactive_traincoupler.fbx"
+                     },
+                     {
+                        "name": "gimble_pitch",
+                        "file": "$CONTENT_DATA/Objects/Mesh/obj_interactive_traincoupler.fbx"
+                     },
+                     {
+                        "name": "stretch",
+                        "file": "$CONTENT_DATA/Objects/Mesh/obj_interactive_traincoupler.fbx"
+                     }
+                  ]
+               }
+            ]
+         },
+         "scripted": {
+            "classname": "TrainCoupler",
+            "filename": "$CONTENT_DATA/Scripts/TrainCoupler.lua"
+         }
+      }
+   ]
+}

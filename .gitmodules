@@ -1,0 +1,3 @@
+[submodule "diagnostics"]
+	path = diagnostics
+	url = https://github.com/Vajdani/sm_docs.git

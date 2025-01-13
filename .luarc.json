@@ -1,0 +1,14 @@
+{
+    // Actual version is "Lua 5.1", but on this version, 'bit' library is
+    // officially not available
+    "runtime.version": "LuaJIT",
+    "workspace.library": [
+        "diagnostics/sm.lua"
+    ],
+    "diagnostics.disable": [
+        "duplicate-set-field"
+    ],
+    "runtime.builtin": {
+        "bit": "enable"
+    }
+}

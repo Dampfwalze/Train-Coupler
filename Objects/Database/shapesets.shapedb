@@ -1,0 +1,6 @@
+{
+   "$schema": "https://raw.githubusercontent.com/Tofixrs/SM-JSON-Schemas/0.6.6/shapeSetDb.json",
+   "shapeSetList": [
+      "$CONTENT_DATA/Objects/Database/ShapeSets/parts.shapeset"
+   ]
+}
