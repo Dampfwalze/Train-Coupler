@@ -1,0 +1,34 @@
+ADDITIONAL PERMISSIONS UNDER GNU GPLv3 SECTION 7
+For Train-Coupler (Scrap Mechanic Mod)
+
+Copyright (C) 2026 Paul Suckow
+
+In addition to the permissions granted under the GNU General Public License,
+version 3 (GPLv3), the copyright holders of this work grant the following
+additional permissions pursuant to Section 7 of the GPLv3:
+
+1. Steam Workshop & Valve Corporation Permission:
+   Permission is granted to copy, distribute, host, and sublicense this work
+   (including its Lua scripts, JSON definitions, 3D models, textures, and
+   audio assets) through the Steam Workshop platform operated by Valve
+   Corporation and its affiliates, under the terms of the Steam Subscriber
+   Agreement, without requiring Valve Corporation to comply with the source
+   distribution or licensing notice requirements of the GPLv3.
+
+2. Scrap Mechanic & Axolot Games AB Permission:
+   Permission is granted to Axolot Games AB (and its successors or assigns)
+   to use, copy, modify, distribute, and integrate this work in connection
+   with the video game "Scrap Mechanic" in accordance with the Scrap Mechanic
+   End User License Agreement (EULA), without requiring Axolot Games AB to
+   distribute this work or any portion of "Scrap Mechanic" under the GPLv3.
+
+3. Downstream Modders:
+   Any person who modifies or creates derivative works of this project may
+   upload and distribute those derivative works on the Steam Workshop under
+   these same Additional Permissions, provided that the complete corresponding
+   source code and original asset files of the derivative work are made
+   publicly available under the GNU GPLv3 (with or without these Additional
+   Permissions).
+
+All other terms and conditions of the GNU General Public License, version 3
+remain in full force and effect.

@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2026 Paul Suckow
+ * Licensed under GNU GPLv3 + Steam/Scrap Mechanic Additional Permissions.
+ * See the LICENSE and LICENSE-EXCEPTION files in the project root.
+ */
 {
 	"$schema": "https://raw.githubusercontent.com/Tofixrs/SM-JSON-Schemas/refs/heads/0.6.6/rotationSet.json",
 	"rotationSet": [

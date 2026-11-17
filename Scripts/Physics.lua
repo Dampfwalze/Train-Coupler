@@ -1,3 +1,7 @@
+-- Copyright (C) 2026 Paul Suckow
+-- Licensed under GNU GPLv3 + Steam/Scrap Mechanic Additional Permissions.
+-- See the LICENSE and LICENSE-EXCEPTION files in the project root.
+
 dofile("MathExtension.lua")
 
 ---@class Physics
