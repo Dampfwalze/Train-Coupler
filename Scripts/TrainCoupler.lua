@@ -166,19 +166,16 @@ end
 
 ---@return Shape?
 function TrainCoupler:findCouplingCandidate()
-    local contacts = sm.physics.getSphereContacts(self.shape.worldPosition, 1.5)
+    local contacts = sm.physics.getShapeContactsInSphere(self.shape.worldPosition, 1.5)
     local couplers = {}
 
-    for _, body in ipairs(contacts.bodies) do
-        if body.id ~= self.shape.body.id then
-            for _, shape in ipairs(body:getShapes()) do
-                if shape.uuid == mod_interactive_train_coupler
-                    and shape.id ~= self.shape.id
-                    and (shape.worldPosition - self.shape.worldPosition):length() <= 1.5
-                then
-                    couplers[#couplers + 1] = shape
-                end
-            end
+    for _, contact in ipairs(contacts) do
+        local shape = contact.shape
+        if shape.uuid == mod_interactive_train_coupler
+            and shape.id ~= self.shape.id
+            and shape.body.id ~= self.shape.body.id
+        then
+            couplers[#couplers + 1] = shape
         end
     end
 
