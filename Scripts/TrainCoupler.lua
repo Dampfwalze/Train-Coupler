@@ -42,6 +42,8 @@ function TrainCoupler:server_init()
 
     if data and data.coupledWith then
         self:sv_setCoupledState(data.coupledWith)
+    else
+        self:sv_syncClientState()
     end
 
     self.physics = Physics()
@@ -95,6 +97,13 @@ end
 
 --MARK: Server methods
 
+function TrainCoupler:sv_syncClientState()
+    self.network:setClientData({
+        candidate = self.coupledWith == nil and self.coupleCandidate or nil,
+        connected = self.coupledWith
+    })
+end
+
 ---@param coupler Shape
 function TrainCoupler:sv_setCoupledState(coupler)
     self.coupledWith = coupler
@@ -107,8 +116,7 @@ function TrainCoupler:sv_setCoupledState(coupler)
         self.coupleCandidate = self:findCouplingCandidate()
     end
 
-    self.network:sendToClients("cl_setCoupleState",
-        { coupler = coupler or self.coupleCandidate, state = coupler ~= nil })
+    self:sv_syncClientState()
 
     if not coupler then
         sm.debugDraw.clear("Connection" .. self.shape.id)
@@ -120,7 +128,7 @@ function TrainCoupler:sv_lookForCouplers()
 
     if candidate ~= self.coupleCandidate then
         self.coupleCandidate = candidate
-        self.network:sendToClients("cl_setCoupleState", { coupler = candidate, state = false })
+        self:sv_syncClientState()
     end
 end
 
@@ -216,6 +224,11 @@ function TrainCoupler:client_onRefresh()
     self:client_init()
 end
 
+function TrainCoupler:client_onClientDataUpdate(data)
+    self.cl_coupledWith = data.connected
+    self.cl_previewCoupler = data.connected or data.candidate
+end
+
 function TrainCoupler:client_init()
     self.interactable:setAnimEnabled("lock", true)
     self.interactable:setAnimEnabled("gimble_yaw", true)
@@ -224,13 +237,6 @@ function TrainCoupler:client_init()
 
     self.cl_animProgress = { pitch = 0.5, yaw = 0.5, stretch = 0.5 }
     self.cl_lockAnimProgress = 0.0
-end
-
-function TrainCoupler:client_onDestroy()
-    if self.cl_previewCoupler then
-        sm.event.sendToInteractable(self.cl_previewCoupler.interactable, "cl_setCoupleState",
-            { coupler = nil, state = false })
-    end
 end
 
 function TrainCoupler:client_onUpdate(dt)
@@ -323,17 +329,6 @@ function TrainCoupler:cl_closeAnimation(dt)
     self.cl_lockAnimProgress = ApproachTarget(self.cl_lockAnimProgress, target, 0.9, dt)
 
     self.interactable:setAnimProgress("lock", self.cl_lockAnimProgress)
-end
-
----@param args {coupler: Shape, state: boolean}
-function TrainCoupler:cl_setCoupleState(args)
-    self.cl_previewCoupler = args.coupler
-
-    if args.state then
-        self.cl_coupledWith = args.coupler
-    else
-        self.cl_coupledWith = nil
-    end
 end
 
 --MARK: Utility
