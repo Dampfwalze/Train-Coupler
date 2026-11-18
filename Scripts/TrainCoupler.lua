@@ -188,6 +188,7 @@ function TrainCoupler:findCouplingCandidate()
         if shape.uuid == mod_interactive_train_coupler
             and shape.id ~= self.shape.id
             and shape.body.id ~= self.shape.body.id
+            and not shape.interactable:isActive()
         then
             couplers[#couplers + 1] = shape
         end
