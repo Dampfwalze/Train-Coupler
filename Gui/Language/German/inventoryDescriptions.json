@@ -1,0 +1,7 @@
+{
+    "bce3e28c-fbf9-459c-b32e-588d04f60331": {
+        "title": "Zugkupplung",
+        "upperCaseTitle": "ZUGKUPPLUNG",
+        "description": "Verbinde Waggons, ohne sie zu einer einzigen Konstruktion zu verschweißen.\n\nVerwendung:\nBringe an jedem Waggon eine Kupplung an und führe die Kupplungen nahe zusammen. Drücke [E] zum An- oder Abkuppeln.\n\nLogikverbindungen:\nEingang: Ein Impuls schaltet zwischen An- und Abkuppeln um.\nAusgang: Aktiv, solange die Kupplung verbunden ist."
+    }
+}

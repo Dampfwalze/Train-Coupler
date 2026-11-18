@@ -1,0 +1,7 @@
+{
+    "bce3e28c-fbf9-459c-b32e-588d04f60331": {
+        "title": "Gancio ferroviario",
+        "upperCaseTitle": "GANCIO FERROVIARIO",
+        "description": "Collega i vagoni senza saldarli in un'unica costruzione.\n\nCome si usa:\nPosiziona un gancio su ciascun vagone e avvicina i due ganci. Premi [E] per agganciare o sganciare.\n\nCollegamenti logici:\nIngresso: Un impulso alterna tra agganciato e sganciato.\nUscita: Attiva finché i ganci sono collegati."
+    }
+}

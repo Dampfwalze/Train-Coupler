@@ -1,0 +1,7 @@
+{
+    "bce3e28c-fbf9-459c-b32e-588d04f60331": {
+        "title": "Engate Ferroviário",
+        "upperCaseTitle": "ENGATE FERROVIÁRIO",
+        "description": "Conecte vagões sem soldá-los em uma única construção.\n\nComo usar:\nColoque um engate em cada vagão e aproxime-os. Pressione [E] para engatar ou desengatar.\n\nConexões lógicas:\nEntrada: Um pulso alterna entre engatado e desengatado.\nSaída: Ativa enquanto estiver engatado."
+    }
+}

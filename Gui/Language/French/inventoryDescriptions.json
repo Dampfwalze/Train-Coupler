@@ -1,0 +1,7 @@
+{
+    "bce3e28c-fbf9-459c-b32e-588d04f60331": {
+        "title": "Attelage ferroviaire",
+        "upperCaseTitle": "ATTELAGE FERROVIAIRE",
+        "description": "Reliez des wagons sans les souder en une seule construction.\n\nUtilisation :\nPlacez un attelage sur chaque wagon et rapprochez-les. Appuyez sur [E] pour atteler ou dételer.\n\nConnexions logiques :\nEntrée : Une impulsion alterne entre attelage et dételage.\nSortie : Active tant que les attelages sont reliés."
+    }
+}

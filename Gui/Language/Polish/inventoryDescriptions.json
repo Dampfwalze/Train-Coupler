@@ -1,0 +1,7 @@
+{
+    "bce3e28c-fbf9-459c-b32e-588d04f60331": {
+        "title": "Sprzęg kolejowy",
+        "upperCaseTitle": "SPRZĘG KOLEJOWY",
+        "description": "Łącz wagony bez spawania ich w jedną konstrukcję.\n\nSposób użycia:\nZamontuj sprzęg na każdym wagonie i zbliż je do siebie. Naciśnij [E], aby połączyć lub rozłączyć wagony.\n\nPołączenia logiczne:\nWejście: Impuls przełącza między połączeniem a rozłączeniem.\nWyjście: Aktywne, gdy wagony są połączone."
+    }
+}

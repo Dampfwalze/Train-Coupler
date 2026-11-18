@@ -1,0 +1,7 @@
+{
+    "bce3e28c-fbf9-459c-b32e-588d04f60331": {
+        "title": "Acoplador ferroviario",
+        "upperCaseTitle": "ACOPLADOR FERROVIARIO",
+        "description": "Conecta vagones sin soldarlos en una sola construcción.\n\nModo de uso:\nColoca un acoplador en cada vagón y acércalos. Pulsa [E] para acoplar o desacoplar.\n\nConexiones lógicas:\nEntrada: Un pulso alterna entre acoplado y desacoplado.\nSalida: Activa mientras los vagones estén acoplados."
+    }
+}
