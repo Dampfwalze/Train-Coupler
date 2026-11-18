@@ -22,7 +22,12 @@ function Physics:solveRodConstraint(this, other, gimbleOffset, rodLength)
 
     local diff = other:transformLocalPoint(gimbleOffset) - this:transformLocalPoint(gimbleOffset)
     local distance = diff:length()
-    local direction = diff:normalize()
+    if distance <= 1e-6 then
+        -- Coincident points have no meaningful constraint direction.
+        self.rodForce = nil
+        return
+    end
+    local direction = diff / distance
 
     --Cancel orbiting effects by canceling the force component that is
     --perpendicular to the rod, one tick later.
