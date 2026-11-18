@@ -67,7 +67,9 @@ function TrainCoupler:server_onFixedUpdate(dt)
 
         if isOnLift ~= self.prevIsOnLift and isOnLift then
             --Creation has been lifted just now
-            self:trySetCoupleState(false)
+            if not self:isCoupledToSameCreation() then
+                self:trySetCoupleState(false)
+            end
         else
             if not otherIsOnLift or otherIsOnLift == self.prevOtherIsOnLift then
                 --Other creation has not been lifted just now
@@ -176,6 +178,16 @@ function TrainCoupler:isCoupled()
     else
         return self.cl_coupledWith ~= nil and sm.exists(self.cl_coupledWith)
     end
+end
+
+---@return boolean
+function TrainCoupler:isCoupledToSameCreation()
+    if not self.coupledWith or not sm.exists(self.coupledWith) then
+        return false
+    end
+
+    return self.shape.body:getCreationId() ==
+        self.coupledWith.body:getCreationId()
 end
 
 ---@return Shape?
