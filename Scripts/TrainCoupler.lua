@@ -112,6 +112,7 @@ function TrainCoupler:sv_setCoupledState(coupler)
         coupler = nil
     end
 
+    local wasCoupledWith = self.coupledWith
     self.coupledWith = coupler
 
     self:sv_store()
@@ -119,7 +120,7 @@ function TrainCoupler:sv_setCoupledState(coupler)
     self.interactable:setActive(coupler ~= nil)
 
     if not coupler then
-        self.coupleCandidate = self:findCouplingCandidate()
+        self.coupleCandidate = self:findCouplingCandidate(wasCoupledWith)
     end
 
     self:sv_syncClientState()
@@ -145,6 +146,7 @@ function TrainCoupler:sv_store()
     }
 
     self.storage:save(data)
+    self.interactable:setPublicData(data)
 end
 
 --MARK: Common methods
@@ -190,8 +192,9 @@ function TrainCoupler:isCoupledToSameCreation()
         self.coupledWith.body:getCreationId()
 end
 
+---@param forceInclude Shape?
 ---@return Shape?
-function TrainCoupler:findCouplingCandidate()
+function TrainCoupler:findCouplingCandidate(forceInclude)
     local contacts = sm.physics.getShapeContactsInSphere(self.shape.worldPosition, 1.5)
     local couplers = {}
 
@@ -200,7 +203,7 @@ function TrainCoupler:findCouplingCandidate()
         if shape.uuid == mod_interactive_train_coupler
             and shape.id ~= self.shape.id
             and shape.body.id ~= self.shape.body.id
-            and not shape.interactable:isActive()
+            and (not CoupledTo(shape) or forceInclude == shape)
         then
             couplers[#couplers + 1] = shape
         end
@@ -350,4 +353,15 @@ end
 ---@return Vec3
 function CouplerWorldPosition(coupler)
     return coupler:transformLocalPoint(gimbleOffset)
+end
+
+---@param shape Shape
+---@return Shape?
+function CoupledTo(shape)
+    if not sm.exists(shape) or shape.uuid ~= mod_interactive_train_coupler then
+        return nil
+    end
+
+    local data = shape.interactable:getPublicData()
+    return data and data.coupledWith
 end
