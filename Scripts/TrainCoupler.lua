@@ -12,8 +12,8 @@ TrainCoupler = class()
 
 TrainCoupler.connectionInput = sm.interactable.connectionType.logic
 TrainCoupler.connectionOutput = sm.interactable.connectionType.logic
-TrainCoupler.maxParentCount = -1
-TrainCoupler.maxChildCount = -1
+TrainCoupler.maxParentCount = 1
+TrainCoupler.maxChildCount = 255
 
 ---@type Physics
 TrainCoupler.physics = nil
@@ -205,22 +205,6 @@ function TrainCoupler:findCouplingCandidate()
 end
 
 --MARK: Client events
-
-function TrainCoupler:client_getAvailableParentConnectionCount(connectionType)
-    if connectionType == sm.interactable.connectionType.logic then
-        return 1 - #self.interactable:getParents(connectionType)
-    else
-        return 0
-    end
-end
-
-function TrainCoupler:client_getAvailableChildConnectionCount(connectionType)
-    if connectionType == sm.interactable.connectionType.logic then
-        return 1
-    else
-        return 0
-    end
-end
 
 function TrainCoupler:client_onCreate()
     self:client_init()
