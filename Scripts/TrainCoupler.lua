@@ -40,24 +40,24 @@ function TrainCoupler:server_init()
     ---@type SaveData?
     local data = self.storage:load()
 
-    if data and data.coupledWith then
-        self:sv_setCoupledState(data.coupledWith)
-    else
-        self:sv_syncClientState()
-    end
+    self:sv_setCoupledState(data and data.coupledWith)
 
     self.physics = Physics()
 end
 
 function TrainCoupler:server_onDestroy()
     sm.debugDraw.clear("Connection" .. self.shape.id)
-    if self:isCoupled() then
+    if self:isCoupled() and sm.exists(self.coupledWith) then
         sm.event.sendToInteractable(self.coupledWith.interactable, "sv_setCoupledState", nil)
     end
 end
 
 function TrainCoupler:server_onFixedUpdate(dt)
     local isOnLift = self.shape.body:isOnLift()
+
+    if self.coupledWith and not sm.exists(self.coupledWith) then
+        self:sv_setCoupledState(nil)
+    end
 
     if self.coupledWith then
         sm.debugDraw.addArrow("Connection" .. self.shape.id, CouplerWorldPosition(self.shape),
@@ -104,8 +104,12 @@ function TrainCoupler:sv_syncClientState()
     })
 end
 
----@param coupler Shape
+---@param coupler Shape?
 function TrainCoupler:sv_setCoupledState(coupler)
+    if coupler and not sm.exists(coupler) then
+        coupler = nil
+    end
+
     self.coupledWith = coupler
 
     self:sv_store()
@@ -151,13 +155,15 @@ function TrainCoupler:trySetCoupleState(state)
     end
 
     if state then
-        if self.coupleCandidate then
+        if self.coupleCandidate and sm.exists(self.coupleCandidate) then
             sm.event.sendToInteractable(self.coupleCandidate.interactable, "sv_setCoupledState", self.shape)
             sm.event.sendToInteractable(self.interactable, "sv_setCoupledState", self.coupleCandidate)
             self.coupledStateChanged = true
         end
     elseif self:isCoupled() then
-        sm.event.sendToInteractable(self.coupledWith.interactable, "sv_setCoupledState", nil)
+        if sm.exists(self.coupledWith) then
+            sm.event.sendToInteractable(self.coupledWith.interactable, "sv_setCoupledState", nil)
+        end
         sm.event.sendToInteractable(self.interactable, "sv_setCoupledState", nil)
         self.coupledStateChanged = true
     end
@@ -168,7 +174,7 @@ function TrainCoupler:isCoupled()
     if sm.isServerMode() then
         return self.coupledWith ~= nil
     else
-        return self.cl_coupledWith ~= nil
+        return self.cl_coupledWith ~= nil and sm.exists(self.cl_coupledWith)
     end
 end
 
@@ -252,19 +258,20 @@ function TrainCoupler:client_onInteract(character, state)
 end
 
 function TrainCoupler:client_canInteract(character)
-    if self.cl_previewCoupler then
+    local hasPreviewCoupler = self.cl_previewCoupler ~= nil and sm.exists(self.cl_previewCoupler)
+    if hasPreviewCoupler then
         sm.gui.setInteractionText((self:isCoupled() and "Uncouple" or "Couple"))
     else
         sm.gui.setInteractionText("Bring it close to another coupler")
     end
-    return self.cl_previewCoupler ~= nil
+    return hasPreviewCoupler
 end
 
 -- MARK: Client methods
 
 ---@param dt number
 function TrainCoupler:cl_pointToOther(dt)
-    if self.cl_previewCoupler then
+    if self.cl_previewCoupler and sm.exists(self.cl_previewCoupler) then
         local function toAnimProgress(angle)
             local maxAngle = math.pi / 3
             local mapped = math.map(angle, -maxAngle, maxAngle, 0.0, 1.0)
