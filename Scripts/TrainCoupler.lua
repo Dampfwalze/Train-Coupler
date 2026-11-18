@@ -266,7 +266,7 @@ function TrainCoupler:cl_pointToOther(dt)
             CouplerWorldPosition(self.cl_previewCoupler) - CouplerWorldPosition(self.shape))
 
         local pitch = math.asin(direction.y / math.max(0.001, direction:length()))
-        local yaw = math.atan(direction.x / direction.z)
+        local yaw = math.atan2(direction.x, direction.z)
         local length = math.clamp(direction:length() * 4.0 / 2.0, 0.5, 5.0)
 
         local stretchAnim
