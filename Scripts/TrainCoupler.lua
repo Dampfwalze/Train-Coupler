@@ -299,7 +299,7 @@ function TrainCoupler:cl_pointToOther(dt)
         local target = {
             pitch = toAnimProgress(pitch),
             yaw = toAnimProgress(yaw ~= yaw and 0.0 or yaw),
-            stretch = 1.0 - stretchAnim
+            stretch = math.clamp(1.0 - stretchAnim, 0.0, 1.0)
         }
 
         if self.cl_didApproach then
@@ -313,7 +313,7 @@ function TrainCoupler:cl_pointToOther(dt)
 
             if math.abs(self.cl_animProgress.pitch - target.pitch) < 0.03
                 and math.abs(self.cl_animProgress.yaw - target.yaw) < 0.03
-                and math.abs(self.cl_animProgress.stretch - target.stretch) < 0.05
+                and math.abs(self.cl_animProgress.stretch - target.stretch) < 0.02
             then
                 self.cl_didApproach = true
             end
@@ -346,11 +346,11 @@ end
 
 ---@param value number
 ---@param target number
----@param speed number
----@param dt number
+---@param retention number Fraction of the remaining gap kept per frame at 60 FPS
+---@param dt number Elapsed time in seconds
 ---@return number
-function ApproachTarget(value, target, speed, dt)
-    return math.lerp(value, target, math.clamp(1.0 - speed ^ (1.0 - dt), 0.0, 1.0))
+function ApproachTarget(value, target, retention, dt)
+    return math.lerp(value, target, 1.0 - retention ^ (math.max(0.0, dt) * 60.0))
 end
 
 ---@param coupler Shape
