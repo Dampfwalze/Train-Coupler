@@ -47,9 +47,7 @@ end
 
 function TrainCoupler:server_onDestroy()
     sm.debugDraw.clear("Connection" .. self.shape.id)
-    if self:isCoupled() and sm.exists(self.coupledWith) then
-        sm.event.sendToInteractable(self.coupledWith.interactable, "sv_setCoupledState", nil)
-    end
+    self:sv_notifyUncoupled(self.coupledWith)
 end
 
 function TrainCoupler:server_onFixedUpdate(dt)
@@ -98,6 +96,26 @@ function TrainCoupler:server_onFixedUpdate(dt)
 end
 
 --MARK: Server methods
+
+function TrainCoupler:sv_notifyUncoupled(partner)
+    if partner and sm.exists(partner) then
+        sm.event.sendToInteractable(partner.interactable, "sv_onUncoupled", self.shape, sm.event.types.instant)
+    end
+end
+
+function TrainCoupler:sv_onUncoupled(partner)
+    if partner and self.coupledWith == partner then
+        self:sv_setCoupledState(nil)
+    end
+end
+
+function TrainCoupler:sv_onCoupleRequest(requester)
+    if not self.coupledWith and requester and sm.exists(requester)
+        and requester.uuid == mod_interactive_train_coupler and requester ~= self.shape and not CoupledTo(requester)
+    then
+        self:sv_setCoupledState(requester)
+    end
+end
 
 function TrainCoupler:sv_syncClientState()
     self.network:setClientData({
@@ -159,16 +177,17 @@ function TrainCoupler:trySetCoupleState(state)
     end
 
     if state then
-        if self.coupleCandidate and sm.exists(self.coupleCandidate) then
-            sm.event.sendToInteractable(self.coupleCandidate.interactable, "sv_setCoupledState", self.shape)
-            sm.event.sendToInteractable(self.interactable, "sv_setCoupledState", self.coupleCandidate)
-            self.coupledStateChanged = true
+        local partner = self.coupleCandidate
+        if not self.coupledWith and partner and sm.exists(partner) and not CoupledTo(partner) then
+            sm.event.sendToInteractable(partner.interactable, "sv_onCoupleRequest", self.shape, sm.event.types.instant)
+            if CoupledTo(partner) == self.shape then
+                self:sv_setCoupledState(partner)
+                self.coupledStateChanged = true
+            end
         end
     elseif self:isCoupled() then
-        if sm.exists(self.coupledWith) then
-            sm.event.sendToInteractable(self.coupledWith.interactable, "sv_setCoupledState", nil)
-        end
-        sm.event.sendToInteractable(self.interactable, "sv_setCoupledState", nil)
+        self:sv_notifyUncoupled(self.coupledWith)
+        self:sv_setCoupledState(nil)
         self.coupledStateChanged = true
     end
 end
