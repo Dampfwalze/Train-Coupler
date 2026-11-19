@@ -231,8 +231,12 @@ function TrainCoupler:client_onRefresh()
 end
 
 function TrainCoupler:client_onClientDataUpdate(data)
+    local previewCoupler = data.connected or data.candidate
+    if previewCoupler ~= self.cl_previewCoupler then
+        self.cl_didApproach = false
+    end
     self.cl_coupledWith = data.connected
-    self.cl_previewCoupler = data.connected or data.candidate
+    self.cl_previewCoupler = previewCoupler
 end
 
 function TrainCoupler:client_init()
